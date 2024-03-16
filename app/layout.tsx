@@ -1,10 +1,12 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
 
-import { Header } from '@/components';
+import { Header, Login } from '@/components';
 import { ReactQueryProvider, NextAuthProvider } from '@/providers';
+import authOptions from '@/lib/auth';
 
 import './globals.css';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Build-A-Body',
@@ -12,13 +14,21 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = async ({ children }: React.PropsWithChildren) => {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <body className="flex h-screen w-screen bg-gray-900">
         <NextAuthProvider>
           <ReactQueryProvider>
-            <Header />
-            <Suspense>{children}</Suspense>
+            {session ? (
+              <>
+                <Header />
+                <Suspense>{children}</Suspense>
+              </>
+            ) : (
+              <Login />
+            )}
           </ReactQueryProvider>
         </NextAuthProvider>
       </body>
