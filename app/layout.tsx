@@ -4,6 +4,7 @@ import { Header } from '@/components';
 import { ReactQueryProvider, NextAuthProvider } from '@/providers';
 
 import './globals.css';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Build-A-Body',
@@ -17,7 +18,7 @@ const RootLayout = async ({ children }: React.PropsWithChildren) => {
         <NextAuthProvider>
           <ReactQueryProvider>
             <Header />
-            {children}
+            <Suspense>{children}</Suspense>
           </ReactQueryProvider>
         </NextAuthProvider>
       </body>
