@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { SideBar } from './components';
 
 const Header: React.FC = () => {
-  const [width, setWidth] = useState<number>(window.innerWidth);
+  const [width, setWidth] = useState<number>(1920);
   const isMobile = width < 640;
   const [open, setOpen] = useState<boolean>(!isMobile);
 
