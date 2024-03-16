@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 
-import { Header, Login } from '@/components';
+import { Header } from '@/components';
 import { ReactQueryProvider, NextAuthProvider } from '@/providers';
 import authOptions from '@/lib/auth';
 
@@ -21,14 +21,8 @@ const RootLayout = async ({ children }: React.PropsWithChildren) => {
       <body className="flex h-screen w-screen bg-gray-900">
         <NextAuthProvider>
           <ReactQueryProvider>
-            {session ? (
-              <>
-                <Header />
-                <Suspense>{children}</Suspense>
-              </>
-            ) : (
-              <Login />
-            )}
+            <Header />
+            <Suspense>{children}</Suspense>
           </ReactQueryProvider>
         </NextAuthProvider>
       </body>
