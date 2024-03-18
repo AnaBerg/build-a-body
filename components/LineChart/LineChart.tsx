@@ -41,18 +41,37 @@ const LineChart: React.FC<LineChartProps> = ({ datasets, labels }) => {
     datasets,
   };
 
-  const options = {
-    elements: {
-      line: {
-        tension: 0,
-        borderRadius: 2,
-        fill: 'start',
-      },
-      point: { radius: 0, hitRadius: 10, hoverRadius: 5 },
-    },
-  };
-
-  return <Line data={data} options={options} className="h-full w-full" />;
+  return (
+    <Line
+      data={data}
+      options={{
+        plugins: {
+          legend: {
+            labels: { color: 'white' },
+          },
+        },
+        elements: {
+          point: { radius: 2.5, hitRadius: 10, hoverRadius: 5 },
+          line: {
+            tension: 0,
+            fill: 'start',
+            backgroundColor: 'transparent',
+          },
+        },
+        scales: {
+          x: {
+            grid: { color: '#FFFFFF22' },
+            ticks: { color: 'white' },
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: 'white' },
+          },
+        },
+      }}
+      className="h-full w-full"
+    />
+  );
 };
 
 export default LineChart;

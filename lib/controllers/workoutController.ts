@@ -115,7 +115,7 @@ export const getUserWorkouts = async (userId: string): Promise<Array<Workout>> =
   return data;
 };
 
-export const getWorkoutById = async (id: string) => {
+export const getWorkoutById = async (id: string): Promise<Workout> => {
   const sb = await supabase();
 
   const { data, error } = await sb.from('workouts').select().eq('id', id);

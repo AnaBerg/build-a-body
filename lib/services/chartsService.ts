@@ -4,62 +4,68 @@ import dateFormater from '@/helper/dateFormater';
 import {
   getSetsByExerciseId,
   getUserExercises,
-  getWorkoutById,
+  getUserWorkouts,
 } from '../controllers/workoutController';
 import getUserId from '../helpers/getUserId';
+import { Workout } from '../types/workout';
 
 export const findMuscleGroupWorkChart = async () => {
   const userId = await getUserId();
 
   const exercises = await getUserExercises(userId);
+  const workouts = await getUserWorkouts(userId);
 
-  const setInfo = Promise.allSettled(
-    exercises.map(async (exercise) => {
-      const sets = await getSetsByExerciseId(exercise.id);
-      const workout = await getWorkoutById(exercise.workoutId);
+  const d = await Promise.all(
+    exercises.map(async ({ id, muscleGroup, name, workoutId }) => {
+      const sets = await getSetsByExerciseId(id);
+      const workout = workouts.find((workout) => workout.id === workoutId) as Workout;
+      let work = 0;
 
-      const totalReps = sets.reduce((acc, set) => acc + set.reps, 0);
-      const totalWeight = sets.reduce((acc, set) => acc + set.weight, 0);
+      sets.forEach(({ number, reps, weight }) => {
+        work += number * reps * weight;
+      });
 
       return {
-        muscleGroup: exercise.muscleGroup,
-        work: totalReps * totalWeight * sets.length + 1,
-        date: workout.date,
+        muscleGroup,
+        date: dateFormater(workout.date),
+        name,
+        work,
       };
     }),
-  ).then((results) => {
-    return results.map(
-      (result) =>
-        (
-          result as PromiseFulfilledResult<{
-            muscleGroup: string;
-            work: number;
-            date: Date;
-          }>
-        ).value,
-    );
-  });
+  );
 
-  let dataset = [] as Array<{ label: string; data: Array<number> }>;
-  let l = [] as Array<Date>;
+  let data = {} as {
+    [muscleGroup: string]: {
+      labels: string[];
+      datasets: Array<{ label: string; data: Array<number>; borderColor: string }>;
+    };
+  };
 
-  (await setInfo).forEach(({ muscleGroup, work, date }) => {
-    const indexD = dataset.findIndex((data) => data.label === muscleGroup);
-    const indexL = l.findIndex((label) => label === date);
+  d.sort((a, b) => (a.date > b.date ? 1 : -1));
 
-    if (indexD === -1) {
-      dataset.push({ data: [work], label: muscleGroup });
-    } else {
-      dataset[indexD].data.push(work);
+  d.forEach(({ date, muscleGroup, name, work }) => {
+    const color = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+
+    if (!data[muscleGroup]) {
+      data[muscleGroup] = {
+        labels: [date],
+        datasets: [{ label: name, data: [work], borderColor: color }],
+      };
     }
 
-    if (indexL === -1) {
-      l.push(date);
+    if (!data[muscleGroup].labels.includes(date)) {
+      data[muscleGroup].labels.push(date);
     }
+
+    const label = data[muscleGroup].datasets.find((d) => d.label === name);
+
+    if (label) {
+      label.data.push(work);
+      return;
+    }
+
+    data[muscleGroup].datasets.push({ label: name, data: [work], borderColor: color });
   });
 
-  const sort = l.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-  const labels = sort.map((date) => dateFormater(new Date(date)));
-
-  return { dataset, labels };
+  return data;
 };
