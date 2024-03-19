@@ -23,6 +23,7 @@ import {
   CreateWorkoutInput,
   Exercise,
   ExercisesWithSets,
+  Set,
   Split,
   Workout,
 } from '../types/workout';
@@ -159,6 +160,10 @@ export const findUserExercisesByWorkoutId = async (
       return { ...exercise, sets: exerciseSets?.status === 'fulfilled' ? exerciseSets.value : [] };
     });
 
+    exercisesWithSets.forEach((exercise) => {
+      exercise.sets.sort((a, b) => a.number - b.number);
+    });
+
     return exercisesWithSets;
   } catch (error) {
     throw error;
@@ -173,8 +178,12 @@ export const updateUserWorkout = async (workout: Partial<Workout>): Promise<stri
   }
 };
 
-export const updateUserSet = async (set: Partial<Exercise>): Promise<string> => {
+export const updateUserSet = async (set: Partial<Set>): Promise<string> => {
   try {
+    if (!set.id) {
+      return await createSet(set as CreateSetInput);
+    }
+
     return await updateSet(set);
   } catch (error) {
     throw error;

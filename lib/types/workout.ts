@@ -25,7 +25,6 @@ export interface Set extends DatabaseGeneric {
   number: number;
   reps: number;
   weight: number;
-
   rir?: number;
   exerciseId: string;
 }

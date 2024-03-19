@@ -12,13 +12,13 @@ const WorkoutTrackerPage: React.FC<WorkoutTrackerPageProps> = async ({ searchPar
   const exercises = await findUserExercisesByWorkoutId(id!);
 
   return (
-    <Paper className="w-full">
+    <div className="flex w-full flex-col gap-2">
       {exercises.map(({ name, sets, technique, id: exerciseId }, i) => (
-        <Accordion key={i} title={name} showDivider={i !== exercises.length - 1}>
+        <Accordion key={i} title={name}>
           <ExerciseForm sets={sets} name={name} technique={technique} exerciseId={exerciseId} />
         </Accordion>
       ))}
-    </Paper>
+    </div>
   );
 };
 
