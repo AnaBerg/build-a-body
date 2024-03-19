@@ -1,4 +1,4 @@
-import { LineChart } from '@/components';
+import { LineChart, Paper } from '@/components';
 import { findMuscleGroupWorkChart } from '@/lib/services/chartsService';
 
 const DashboardPage: React.FC = async () => {
@@ -6,16 +6,15 @@ const DashboardPage: React.FC = async () => {
   const arr = Object.entries(data);
 
   return (
-    <main>
+    <main className="flex h-full w-full flex-col gap-5">
       {arr.map(([key, { datasets, labels }]) => {
         return (
-          <div key={key} className="py-5">
+          <Paper key={key} className="p-5">
             <p className="font-bold">{key}</p>
             <LineChart datasets={datasets} labels={labels} />
-          </div>
+          </Paper>
         );
       })}
-      <p>{JSON.stringify(data)}</p>
     </main>
   );
 };
