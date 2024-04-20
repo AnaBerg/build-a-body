@@ -1,1 +1,1 @@
-bun test
+bun run lint:fix && bun run prettier:fix && bun test
