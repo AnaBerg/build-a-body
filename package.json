@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --check --ignore-path .gitignore .",
-    "prettier:fix": "prettier --write --ignore-path .gitignore ."
+    "prettier:fix": "prettier --write --ignore-path .gitignore .",
+    "prepare": "husky"
   },
   "dependencies": {
     "class-variance-authority": "0.7.0",
@@ -31,6 +32,7 @@
     "eslint": "8",
     "eslint-config-next": "14.2.2",
     "eslint-config-prettier": "9.1.0",
+    "husky": "^9.0.11",
     "postcss": "8",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.14",
