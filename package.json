@@ -10,7 +10,9 @@
     "lint:fix": "next lint --fix",
     "prettier": "prettier --check --ignore-path .gitignore .",
     "prettier:fix": "prettier --write --ignore-path .gitignore .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "bun test ./src/**/*.test.tsx",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "class-variance-authority": "0.7.0",
@@ -25,6 +27,7 @@
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "14.7.1",
+    "@playwright/test": "1.43.1",
     "@testing-library/react": "15.0.2",
     "@types/node": "20",
     "@types/react": "18",
@@ -33,7 +36,7 @@
     "eslint": "8",
     "eslint-config-next": "14.2.2",
     "eslint-config-prettier": "9.1.0",
-    "husky": "^9.0.11",
+    "husky": "9.0.11",
     "postcss": "8",
     "prettier": "3.2.5",
     "prettier-plugin-tailwindcss": "0.5.14",
