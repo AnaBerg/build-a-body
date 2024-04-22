@@ -21,6 +21,6 @@ jobs:
           cache: bun
       - run: bun install
       - run: bun run build
-      - run: bun run test
+      - run: bun test
       - run: bun run playwright install --with-deps
       - run: bun run test:e2e
