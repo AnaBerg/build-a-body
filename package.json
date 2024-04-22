@@ -50,7 +50,7 @@
   "type": "module",
   "engineStrict": true,
   "engines": {
-    "node": "21.x.x",
+    "node": ">=20.x.x",
     "bun": "1.x"
   }
 }
