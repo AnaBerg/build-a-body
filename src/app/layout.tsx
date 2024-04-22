@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter as FontSans } from 'next/font/google';
-import { ClerkProvider } from '@clerk/nextjs';
 
 import { cn } from '@/lib/utils';
+import ThemeProvider from '@/components/ThemeProvider';
+import Header from '@/components/Header';
+import ClerkProvider from '@/components/ClerkProvider';
 
 import '@/styles/globals.css';
-import ThemeProvider from '@/components/theme-provider';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -27,7 +28,10 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
             fontSans.variable
           )}
         >
-          <ThemeProvider>{children}</ThemeProvider>
+          <ThemeProvider>
+            <Header />
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

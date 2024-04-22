@@ -1,2 +1,4 @@
 [test]
 preload = "./happydom.ts"
+root = "./src/"
+coverage = true

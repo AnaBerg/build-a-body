@@ -1,1 +1,1 @@
-bun run lint:fix && bun run prettier:fix && bun run build && bun run test && bun run test:e2e
+bun run lint:fix && bun run prettier:fix && bun run build && bun test && bun run test:e2e
