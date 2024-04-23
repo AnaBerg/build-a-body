@@ -1,9 +1,7 @@
-const Home = () => {
-  return (
-    <main>
-      <p>Hello World</p>
-    </main>
-  );
+import ComingSoon from '@/components/ComingSoon';
+
+const HomePage: React.FC = () => {
+  return <ComingSoon pageName="Home Page" />;
 };
 
-export default Home;
+export default HomePage;
