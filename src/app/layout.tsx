@@ -37,7 +37,6 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
           <SpeedInsights />
         </body>
       </html>
-      <SpeedInsights />
     </ClerkProvider>
   );
 };
