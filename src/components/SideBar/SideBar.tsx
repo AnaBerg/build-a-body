@@ -18,7 +18,7 @@ const SideBar: React.FC<SideBarProps> = ({ routes, title }) => {
       return false;
     }
 
-    if (pathname.includes(route)) {
+    if (pathname.includes(route.split('/')[2])) {
       return true;
     }
 
@@ -34,7 +34,7 @@ const SideBar: React.FC<SideBarProps> = ({ routes, title }) => {
           data-testid={`link-${name}`}
           href={path}
           className={cn(
-            'flex gap-2 text-foreground transition-colors hover:text-foreground/80 hover:underline',
+            'flex gap-2 transition-colors hover:text-foreground/80 hover:underline',
             isCurrentRoute(path) ? 'text-foreground' : 'text-foreground/60'
           )}
         >
