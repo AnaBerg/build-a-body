@@ -15,7 +15,7 @@ const ExerciseLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
       icon: <NotebookPen />,
     },
     {
-      path: '/exercise/split',
+      path: '/exercise/split/my',
       name: 'Split',
       icon: <CalendarDays />,
     },

@@ -1,6 +1,6 @@
 import { sql } from 'drizzle-orm';
 import {
-  index,
+  boolean,
   pgTableCreator,
   uuid,
   timestamp,
@@ -13,11 +13,12 @@ const createTable = pgTableCreator((name) => `build_a_body_${name}`);
 export const splits = createTable('splits', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
+  active: boolean('active').default(false),
   userId: varchar('user_id', { length: 256 }).notNull(),
   createdAt: timestamp('created_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp('updatedAt')
+  updatedAt: timestamp('updated_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
@@ -30,7 +31,7 @@ export const exercises = createTable('exercises', {
   createdAt: timestamp('created_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp('updatedAt')
+  updatedAt: timestamp('updated_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
@@ -38,16 +39,15 @@ export const exercises = createTable('exercises', {
 export const splitDays = createTable('split_days', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
-  exercises: uuid('exercises')
-    .array()
+  exercises: uuid('exercises').array(),
+  splitId: uuid('split_id')
     .notNull()
-    .references(() => exercises.id),
-  splitId: uuid('user_id').notNull(),
+    .references(() => splits.id),
   userId: varchar('user_id', { length: 256 }).notNull(),
   createdAt: timestamp('created_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp('updatedAt')
+  updatedAt: timestamp('updated_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
@@ -62,7 +62,7 @@ export const workouts = createTable('workouts', {
   createdAt: timestamp('created_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp('updatedAt')
+  updatedAt: timestamp('updated_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
@@ -81,7 +81,7 @@ export const exercisesPerformed = createTable('exercises_performed', {
   createdAt: timestamp('created_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp('updatedAt')
+  updatedAt: timestamp('updated_at')
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
 });
