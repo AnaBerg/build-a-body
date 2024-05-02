@@ -64,3 +64,44 @@ export const getUserSplits = async () => {
 
   return splits;
 };
+
+export const getExercisesForAccordion = async () => {
+  const exercisesRaw = await db.query.exercises.findMany();
+
+  if (!exercisesRaw) {
+    return [];
+  }
+
+  const exercises = exercisesRaw.reduce(
+    (
+      acc: Array<{
+        title: string;
+        value: string;
+        exercises: Array<{ name: string; label: string }>;
+      }>,
+      { name, muscleGroup }
+    ) => {
+      const found = acc.find((a) => a.value === muscleGroup);
+
+      if (found) {
+        found.exercises.push({
+          name: name.toLowerCase().replaceAll(' ', '_'),
+          label: name,
+        });
+      } else {
+        acc.push({
+          title: muscleGroup.charAt(0).toUpperCase() + muscleGroup.slice(1),
+          value: muscleGroup,
+          exercises: [
+            { name: name.toLowerCase().replaceAll(' ', '_'), label: name },
+          ],
+        });
+      }
+
+      return acc;
+    },
+    []
+  );
+
+  return exercises;
+};
