@@ -39,7 +39,7 @@ export const exercises = createTable('exercises', {
 export const splitDays = createTable('split_days', {
   id: uuid('id').defaultRandom().primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
-  exercises: uuid('exercises').array(),
+  exercises: varchar('exercises', { length: 256 }).array(),
   splitId: uuid('split_id')
     .notNull()
     .references(() => splits.id),
