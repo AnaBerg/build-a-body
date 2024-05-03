@@ -5,6 +5,10 @@ on:
     branches:
       - main
       - develop
+  push:
+    branches:
+      - main
+      - develop
 
 jobs:
   build-and-start:
@@ -39,4 +43,3 @@ jobs:
           severity: warn
           details: Test Cancelled!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-  
