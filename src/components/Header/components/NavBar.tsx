@@ -1,13 +1,14 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const NavBar: React.FC = () => {
   const pathname = usePathname();
   const routes = [
-    { path: '/exercise', name: 'Exercise' },
-    { path: '/meal', name: 'Meal' },
+    { path: '/exercise/dashboard', name: 'Exercise' },
+    { path: '/meal/dashboard', name: 'Meal' },
   ];
 
   const isCurrentRoute = (route: string) => {
@@ -15,7 +16,7 @@ const NavBar: React.FC = () => {
       return false;
     }
 
-    if (pathname.includes(route)) {
+    if (pathname.includes(route.split('/')[1])) {
       return true;
     }
 
@@ -29,11 +30,10 @@ const NavBar: React.FC = () => {
           data-testid={`link-${name}`}
           key={i + name}
           href={path}
-          className={
-            isCurrentRoute(path)
-              ? 'text-foreground transition-colors hover:text-foreground/80'
-              : 'text-foreground/60 transition-colors hover:text-foreground/80'
-          }
+          className={cn(
+            ' transition-colors hover:text-foreground/80',
+            isCurrentRoute(path) ? 'text-foreground' : 'text-foreground/60'
+          )}
         >
           {name}
         </Link>

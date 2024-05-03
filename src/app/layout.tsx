@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Inter as FontSans } from 'next/font/google';
 
-import { cn } from '@/lib/utils';
 import ThemeProvider from '@/components/ThemeProvider';
 import Header from '@/components/Header';
 import ClerkProvider from '@/components/ClerkProvider';
+
+import { cn } from '@/lib/utils';
 
 import '@/styles/globals.css';
 
@@ -32,6 +34,7 @@ const RootLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
             <Header />
             {children}
           </ThemeProvider>
+          <SpeedInsights />
         </body>
       </html>
     </ClerkProvider>
