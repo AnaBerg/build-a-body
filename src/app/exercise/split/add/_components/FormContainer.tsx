@@ -55,7 +55,7 @@ const AddFormContainer: React.FC<AddFormContainerProps> = ({ accordions }) => {
   });
 
   return (
-    <div className="flex w-[66%] p-10">
+    <div className="flex md:w-[66%]">
       <Form {...form}>
         <AddForm
           exercises={exercises}
