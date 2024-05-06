@@ -22,7 +22,7 @@ const MealLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   ];
 
   return (
-    <main className="flex">
+    <main className="flex flex-col gap-4 p-4 md:flex-row md:gap-0 md:p-0">
       <SideBar title="Meal" routes={routes} />
       {children}
     </main>

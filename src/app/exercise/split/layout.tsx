@@ -34,8 +34,8 @@ const SplitLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   };
 
   return (
-    <div className="flex w-[calc(100vw-250px)]">
-      <div className="flex w-[33%] p-10">
+    <div className="flex flex-col gap-4 md:w-[calc(100vw-250px)] md:flex-row md:gap-10 md:p-10">
+      <div className="flex md:w-[33%]">
         <Card className="h-fit w-full">
           <CardHeader>
             <CardTitle>Split Configuration</CardTitle>

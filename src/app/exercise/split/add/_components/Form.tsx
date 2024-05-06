@@ -68,7 +68,10 @@ const AddForm: React.FC<AddFormProps> = ({ exercises, form, setModal }) => {
               items={radioGroupItems}
             />
             {days.map(({ label, name }, i) => (
-              <div key={`${name}-${i}`} className="flex items-end gap-10">
+              <div
+                key={`${name}-${i}`}
+                className="flex items-end gap-4 md:gap-10"
+              >
                 <div className="flex-1">
                   <TextField name={name} label={label} />
                 </div>

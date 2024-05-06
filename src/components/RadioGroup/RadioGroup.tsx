@@ -42,14 +42,14 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
               disabled={disabled}
               className={
                 orientation === 'horizontal'
-                  ? 'flex w-full justify-evenly space-x-3'
+                  ? 'flex w-full flex-wrap justify-evenly space-x-3'
                   : 'flex flex-col space-y-1'
               }
             >
               {items.map((item, i) => (
                 <FormItem
                   key={`${item}-${i}`}
-                  className="flex items-center space-x-3 space-y-0"
+                  className="flex items-center space-x-3 space-y-0 py-2"
                 >
                   <FormControl>
                     <RadioGroupItem value={item.value} />

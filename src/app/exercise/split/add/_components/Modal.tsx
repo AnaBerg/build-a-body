@@ -19,8 +19,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import Checkbox from '@/components/Checkbox';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ExerciseModalProps {
   onOpenChange: (open: boolean) => void;
@@ -63,6 +71,7 @@ const ExerciseModal: React.FC<ExerciseModalProps> = ({
   day,
   prevExercises,
 }) => {
+  const [width, setWidth] = useState<number>(window.innerWidth);
   const allExercises = accordions.flatMap((accordion) =>
     accordion.exercises.flatMap((exercise) => exercise.name)
   );
@@ -73,11 +82,19 @@ const ExerciseModal: React.FC<ExerciseModalProps> = ({
     )
   );
   const defaultValues = handleDefaultValues(allExercises, prevExercises);
-
   const form = useForm<typeof formSchema>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const onSubmit: SubmitHandler<typeof formSchema> = (data) => {
     let selectedExercises: Array<string> = [];
@@ -93,19 +110,16 @@ const ExerciseModal: React.FC<ExerciseModalProps> = ({
     onOpenChange(false);
   };
 
-  return (
-    <Dialog onOpenChange={onOpenChange} open={open}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Exercises</DialogTitle>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+  const content = () => {
+    return (
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <ScrollArea className="h-[627px] w-full">
             <Accordion type="single" collapsible>
               {accordions.map(({ title, value, exercises }, i) => (
                 <AccordionItem key={`${value}-${i}`} value={value}>
                   <AccordionTrigger>{title}</AccordionTrigger>
-                  <AccordionContent className="grid grid-cols-4 gap-6">
+                  <AccordionContent className="grid grid-cols-2 gap-6 md:grid-cols-4">
                     {exercises.map((exercise, j) => (
                       <Checkbox
                         name={exercise.name}
@@ -117,13 +131,42 @@ const ExerciseModal: React.FC<ExerciseModalProps> = ({
                 </AccordionItem>
               ))}
             </Accordion>
-            <DialogFooter>
-              <div className="pt-4">
-                <Button type="submit">Add</Button>
-              </div>
-            </DialogFooter>
-          </form>
-        </Form>
+          </ScrollArea>
+          <DialogFooter className="hidden md:block">
+            <div className="pt-4">
+              <Button className="w-full" type="submit">
+                Add
+              </Button>
+            </div>
+          </DialogFooter>
+          <DrawerFooter className="md:hidden">
+            <div className="pt-4">
+              <Button className="w-full" type="submit">
+                Add
+              </Button>
+            </div>
+          </DrawerFooter>
+        </form>
+      </Form>
+    );
+  };
+
+  return width < 768 ? (
+    <Drawer onOpenChange={onOpenChange} open={open}>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Exercises</DrawerTitle>
+        </DrawerHeader>
+        <div className="px-5">{content()}</div>
+      </DrawerContent>
+    </Drawer>
+  ) : (
+    <Dialog onOpenChange={onOpenChange} open={open}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Exercises</DialogTitle>
+        </DialogHeader>
+        {content()}
       </DialogContent>
     </Dialog>
   );
