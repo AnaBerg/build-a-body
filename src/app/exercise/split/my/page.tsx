@@ -6,7 +6,7 @@ import { getUserSplits } from '@/server/queries';
 const MyPage: React.FC = async () => {
   const splits = await getUserSplits();
   return (
-    <div className="flex w-[66%] p-10">
+    <div className="flex md:w-[66%]">
       <Table splits={splits} />
     </div>
   );
