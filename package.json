@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "next build",
-    "start": "next start -p 4000",
+    "build": "rm -rf /.next && next build",
+    "build:start": "rm -rf /.next && next build && next start -p 3030",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "prettier": "prettier --check --ignore-path .gitignore .",
