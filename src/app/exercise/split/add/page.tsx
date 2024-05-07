@@ -1,10 +1,10 @@
 import { getExercisesForAccordion } from '@/server/queries';
-import AddFormContainer from './_components/FormContainer';
+import SplitFormContainer from '../_components/FormContainer';
 
 const AddPage: React.FC = async () => {
   const accordions = await getExercisesForAccordion();
 
-  return <AddFormContainer accordions={accordions} />;
+  return <SplitFormContainer accordions={accordions} />;
 };
 
 export default AddPage;
