@@ -24,7 +24,7 @@ const formSchema = z.object({
   day7: z.string(),
 });
 
-const defaultValues = {
+const addDefaultValues = {
   amount: '1',
   day1: '',
   day2: '',
@@ -36,19 +36,26 @@ const defaultValues = {
   name: '',
 };
 
-interface AddFormContainerProps {
+interface SplitFormContainerProps {
   accordions: Array<{
     title: string;
     value: string;
     exercises: Array<{ name: string; label: string }>;
   }>;
+  editDefaultValues?: typeof addDefaultValues;
+  editExercises?: { [key: string]: Array<string> };
 }
 
-const AddFormContainer: React.FC<AddFormContainerProps> = ({ accordions }) => {
+const SplitFormContainer: React.FC<SplitFormContainerProps> = ({
+  accordions,
+  editDefaultValues,
+  editExercises,
+}) => {
   const [exercises, setExercises] = useState<any>({});
   const [modal, setModal] = useState<{ day?: string; open: boolean }>({
     open: false,
   });
+  const defaultValues = editDefaultValues ?? addDefaultValues;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
@@ -71,11 +78,13 @@ const AddFormContainer: React.FC<AddFormContainerProps> = ({ accordions }) => {
           accordions={accordions}
           setExercises={setExercises}
           onOpenChange={(open) => setModal({ open })}
-          prevExercises={exercises[modal.day!]}
+          prevExercises={
+            editExercises ? editExercises[modal.day!] : exercises[modal.day!]
+          }
         />
       )}
     </div>
   );
 };
 
-export default AddFormContainer;
+export default SplitFormContainer;

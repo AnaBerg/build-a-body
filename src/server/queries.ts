@@ -105,3 +105,31 @@ export const getExercisesForAccordion = async () => {
 
   return exercises;
 };
+
+export const getSplitById = async (id: string) => {
+  const user = auth();
+
+  if (!user.userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const split = await db.query.splits.findFirst({
+    where: (model, { eq, and }) =>
+      and(eq(model.id, id), eq(model.userId, user.userId)),
+  });
+
+  if (!split) {
+    throw new Error('Split not found');
+  }
+
+  const splitDays = await db.query.splitDays.findMany({
+    where: (model, { eq, and }) =>
+      and(eq(model.splitId, id), eq(model.userId, user.userId)),
+  });
+
+  if (!splitDays) {
+    throw new Error('Split days not found');
+  }
+
+  return { ...split, splitDays };
+};

@@ -51,7 +51,7 @@ const columns: Array<ColumnDef<Split>> = [
     cell: ({ row: { original } }) => (
       <Link
         className="text-foreground transition-colors hover:text-foreground/80"
-        href={`/exercise/split/edit?id=${original.id}`}
+        href={`/exercise/split/edit/${original.id}`}
       >
         <Pencil />
       </Link>
