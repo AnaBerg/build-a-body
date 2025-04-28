@@ -22,7 +22,10 @@ import {
   CreditCard,
   EllipsisVertical,
   LogOut,
+  Moon,
+  Sun,
 } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export function NavUser({
   user,
@@ -34,6 +37,11 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const { theme, setTheme } = useTheme();
+
+  const handleThemeChange = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   return (
     <SidebarMenu>
@@ -90,6 +98,10 @@ export function NavUser({
               <DropdownMenuItem>
                 <Bell />
                 Notifications
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleThemeChange}>
+                {theme === 'dark' ? <Sun /> : <Moon />}
+                {theme === 'dark' ? 'Light mode' : 'Dark mode'}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
