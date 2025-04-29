@@ -11,13 +11,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: 'jwt' },
   callbacks: {
     async authorized({ auth, request }) {
-      if (!auth) {
-        if (request.nextUrl.pathname.startsWith('/api/auth')) {
-          return true;
-        }
-        return false;
-      }
-      return true;
+      const isLoggedOff =
+        !auth && !request.nextUrl.pathname.startsWith('/api/auth');
+
+      return !isLoggedOff;
     },
   },
 });

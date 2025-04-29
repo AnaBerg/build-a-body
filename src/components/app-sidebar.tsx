@@ -33,13 +33,9 @@ import {
   Sparkles,
   Users,
 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
   navMain: [
     {
       title: 'Dashboard',
@@ -152,6 +148,8 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = useSession();
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -162,7 +160,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="/">
-                <BicepsFlexed className="!size-5" />
+                <BicepsFlexed className="!size-5 text-primary" />
                 <span className="text-base font-semibold">Build-a-Body</span>
               </a>
             </SidebarMenuButton>
@@ -174,9 +172,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      {session && session.user && (
+        <SidebarFooter>
+          <NavUser user={session.user} />
+        </SidebarFooter>
+      )}
     </Sidebar>
   );
 }
